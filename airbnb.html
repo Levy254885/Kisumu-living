@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Rentals in Kisumu | Kisumu Living</title>
+    <meta name="description" content="Browse our selection of premium Airbnb rentals in Kisumu, Kenya. Find the perfect vacation home for your stay in the lakeside city.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+:root {
+    --primary-color: #FF5A5F;
+    --secondary-color: #00A699;
+    --dark-color: #484848;
+    --light-color: #f7f7f7;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--dark-color);
+    background-color: #fff;
+    line-height: 1.6;
+}
+
+/* Page Header Animation */
+.page-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+    opacity: 0.2;
+    z-index: 0;
+    animation: zoomIn 20s infinite alternate;
+}
+
+.page-header .container {
+    position: relative;
+    z-index: 1;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+.page-header p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+/* Filter Section Styling */
+.listing-filters {
+    background: white;
+    padding: 2rem 0;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: var(--transition);
+}
+
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.filter-group select:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Button Styling */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn i {
+    transition: var(--transition);
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #e04a50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
+}
+
+.btn.secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn.secondary:hover {
+    background-color: rgba(255, 90, 95, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Property Listings Grid */
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.property-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.property-card:nth-child(1) { animation-delay: 0.1s; }
+.property-card:nth-child(2) { animation-delay: 0.2s; }
+.property-card:nth-child(3) { animation-delay: 0.3s; }
+.property-card:nth-child(4) { animation-delay: 0.4s; }
+.property-card:nth-child(5) { animation-delay: 0.5s; }
+.property-card:nth-child(6) { animation-delay: 0.6s; }
+
+.property-image {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.property-card:hover .property-image {
+    transform: scale(1.05);
+}
+
+.property-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.property-details {
+    padding: 1.5rem;
+}
+
+.property-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.property-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--dark-color);
+}
+
+.property-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.property-location {
+    color: #767676;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.property-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+.amenity {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: #767676;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 166, 153, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--secondary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin: 2rem auto;
+    grid-column: 1 / -1;
+}
+
+/* Map View */
+.map-view {
+    padding: 4rem 0;
+    background-color: var(--light-color);
+}
+
+#airbnb-map {
+    height: 500px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+#airbnb-map:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* CTA Section */
+.cta {
+    text-align: center;
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.cta .container {
+    position: relative;
+    z-index: 1;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+.cta p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    color: #555;
+}
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-slow);
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(50px);
+    transition: var(--transition-slow);
+    position: relative;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #777;
+    cursor: pointer;
+    transition: var(--transition);
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover {
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+#page-info {
+    font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .listings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #airbnb-map {
+        height: 350px;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+/* Hover Effects */
+.property-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.3) 100%);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.property-card:hover::after {
+    opacity: 1;
+}
+
+/* Transition for filter changes */
+.filter-section {
+    will-change: transform, opacity;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+    </style>
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header>
+        <!-- Same header as index.html -->
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Airbnb Rentals in Kisumu</h1>
+            <p>Find your perfect vacation home in Kenya's beautiful lakeside city</p>
+        </div>
+    </section>
+
+    <!-- Listing Filters -->
+    <section class="listing-filters">
+        <div class="container">
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="location">Location</label>
+                    <select id="location">
+                        <option value="">All Locations</option>
+                        <option value="milimani">Milimani</option>
+                        <option value="nyalenda">Nyalenda</option>
+                        <option value="kanyakwar">Kanyakwar</option>
+                        <option value="lolwe">Lolwe</option>
+                        <option value="kibos">Kibos</option>
+                        <option value="Molewm">Molewm</option>
+                        <option value="Nyamasaria">Nyamasaria</option>
+                        <option value="Manyatta">Manyatta</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-range">Price Range</label>
+                    <select id="price-range">
+                        <option value="">All Prices</option>
+                        <option value="0-5000">Under KES 5,000</option>
+                        <option value="5000-10000">KES 5,000 - 10,000</option>
+                        <option value="10000-20000">KES 10,000 - 20,000</option>
+                        <option value="20000-50000">KES 20,000 - 50,000</option>
+                        <option value="50000-100000">KES 50,000+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="bedrooms">Bedrooms</label>
+                    <select id="bedrooms">
+                        <option value="">Any</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="amenities">Amenities</label>
+                    <select id="amenities">
+                        <option value="">All</option>
+                        <option value="wifi">WiFi</option>
+                        <option value="pool">Pool</option>
+                        <option value="parking">Parking</option>
+                        <option value="ac">Air Conditioning</option>
+                        <option value="kitchen">Kitchen</option>
+                    </select>
+                </div>
+                <button id="apply-filters" class="btn primary">Apply Filters</button>
+                <button id="reset-filters" class="btn secondary">Reset</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Listings -->
+    <section class="property-listings">
+        <div class="container">
+            <div class="listings-header">
+                <h2>Available Properties</h2>
+                <div class="sort-options">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                        <option value="rating">Rating</option>
+                        <option value="newest">Newest</option>
+                        <option value="Most-sold">Most sold</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="listings-grid" id="airbnb-listings">
+                <!-- Airbnb listings will be loaded via JavaScript -->
+                <div class="loading-spinner"></div>
+            </div>
+            
+            <div class="pagination">
+                <button class="btn secondary" id="prev-page">Previous</button>
+                <span id="page-info">Page 1 of 5</span>
+                <button class="btn secondary" id="next-page">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map View -->
+    <section class="map-view">
+        <div class="container">
+            <h2>Property Locations</h2>
+            <div id="airbnb-map"></div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Have a Property to List?</h2>
+            <p>Join our network of premium Airbnb hosts in Kisumu and maximize your rental income.</p>
+            <a href="contact.html" class="btn primary">List Your Property</a>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer>
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <!-- Property Modal (hidden by default) -->
+    <div class="modal" id="property-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Property details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=places" async defer></script>
+    <script src="js/main.js"></script>
+    <script src="js/listings.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>
